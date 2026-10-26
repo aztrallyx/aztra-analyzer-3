@@ -1,0 +1,42 @@
+name: aztra_analyzer
+description: Aztra Analyzer - analizador de calidad de audio.
+publish_to: none
+version: 2.1.0+3
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ffmpeg_kit_flutter_new_audio: 2.5.7
+  file_picker: ">=8.1.0 <9.0.0"
+  path_provider: ^2.1.0
+  permission_handler: ">=11.3.0 <13.0.0"
+  share_plus: 10.1.4
+  dynamic_color: ^1.7.0
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/icon/icon_fg.png"
+  adaptive_icon_monochrome: "assets/icon/icon_mono.png"
+  min_sdk_android: 24
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/licenses/
+    - assets/icon/logo.png
+  fonts:
+    - family: Google Sans Flex
+      fonts:
+        - asset: assets/fonts/GoogleSansFlex.ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/InterVariable.ttf
