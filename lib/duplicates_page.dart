@@ -7,6 +7,7 @@ import 'duplicates.dart';
 import 'format.dart';
 import 'library.dart';
 import 'settings.dart';
+import 'glass.dart';
 
 class DuplicatesPage extends StatefulWidget {
   const DuplicatesPage({
@@ -52,7 +53,7 @@ class _DuplicatesPageState extends State<DuplicatesPage> {
           : ListView(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
               children: [
-                Card(
+                GlassCard(
                   elevation: 0,
                   margin: EdgeInsets.zero,
                   color: cs.surfaceContainer,
@@ -144,7 +145,7 @@ class _GroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    return Card(
+    return GlassCard(
       elevation: 0,
       margin: EdgeInsets.zero,
       color: cs.surfaceContainer,

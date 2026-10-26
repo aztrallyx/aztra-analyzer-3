@@ -7,6 +7,7 @@ import 'library.dart';
 import 'pick_song_page.dart';
 import 'settings.dart';
 import 'spectrogram_panel.dart';
+import 'glass.dart';
 
 /// Compara dos canciones ya analizadas: numeros lado a lado, un resumen en
 /// palabras y los dos espectrogramas.
@@ -246,7 +247,7 @@ class _InsightsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final lines = _insights(a, b);
-    return Card(
+    return GlassCard(
       elevation: 0,
       margin: EdgeInsets.zero,
       color: cs.surfaceContainer,
@@ -380,7 +381,7 @@ class _TableCard extends StatelessWidget {
     TextStyle label = TextStyle(color: cs.onSurfaceVariant, fontSize: 12);
     const value = TextStyle(fontSize: 12, fontWeight: FontWeight.w600);
 
-    return Card(
+    return GlassCard(
       elevation: 0,
       margin: EdgeInsets.zero,
       color: cs.surfaceContainer,

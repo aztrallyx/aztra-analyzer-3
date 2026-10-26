@@ -13,6 +13,7 @@ import 'library.dart';
 import 'settings.dart';
 import 'spectrogram_card.dart';
 import 'store.dart';
+import 'glass.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({
@@ -216,7 +217,7 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ),
           if (sus != null) ...[
-            Card(
+            GlassCard(
               elevation: 0,
               margin: EdgeInsets.zero,
               color: cs.errorContainer.withValues(alpha: 0.45),

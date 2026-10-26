@@ -3,6 +3,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'glass.dart';
 import 'home_page.dart';
 import 'library.dart';
 import 'settings.dart';
@@ -51,7 +52,24 @@ class AztraApp extends StatelessWidget {
             return MaterialApp(
               title: 'Aztra Analyzer',
               debugShowCheckedModeBanner: false,
-              theme: buildTheme(darkDynamic, settings.fontFamily),
+              theme: buildTheme(
+                darkDynamic,
+                settings.fontFamily,
+                accent: settings.accent,
+                glass: settings.glass,
+                aurora: settings.aurora,
+              ),
+              builder: (context, child) => GlassScope(
+                enabled: settings.glass,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    if (settings.aurora)
+                      const Positioned.fill(child: AuroraBackground()),
+                    if (child != null) child,
+                  ],
+                ),
+              ),
               home: HomePage(controller: controller, settings: settings),
             );
           },

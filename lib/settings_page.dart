@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'format.dart';
+import 'glass.dart';
 import 'library.dart';
 import 'settings.dart';
 import 'store.dart';
@@ -49,6 +50,46 @@ class _SettingsPageState extends State<SettingsPage> {
     trailing: selected ? const Icon(Icons.check) : null,
     onTap: onTap,
   );
+
+  /// Circulo de color. [color] null = colores dinamicos del telefono.
+  Widget _swatch(int value, Color? color) {
+    final cs = Theme.of(context).colorScheme;
+    final selected = _s.accent == value;
+    return Tooltip(
+      message: color == null ? 'Colores del teléfono' : 'Color',
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: () => _s.setAccent(value),
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color,
+            gradient: color == null
+                ? const SweepGradient(
+                    colors: [
+                      Color(0xFFFF5252),
+                      Color(0xFFFFB300),
+                      Color(0xFF4CAF50),
+                      Color(0xFF2979FF),
+                      Color(0xFF7C4DFF),
+                      Color(0xFFFF5252),
+                    ],
+                  )
+                : null,
+            border: Border.all(
+              color: selected ? cs.onSurface : Colors.white24,
+              width: selected ? 3 : 1,
+            ),
+          ),
+          child: selected
+              ? const Icon(Icons.check, size: 20, color: Colors.white)
+              : null,
+        ),
+      ),
+    );
+  }
 
   Future<void> _pickCustomFont() async {
     final res = await FilePicker.platform.pickFiles(type: FileType.any);
@@ -138,6 +179,35 @@ class _SettingsPageState extends State<SettingsPage> {
                   trailing: const Icon(Icons.upload_file_outlined),
                   onTap: _pickCustomFont,
                 ),
+              _section('Apariencia'),
+              SwitchListTile(
+                title: const Text('Efecto vidrio'),
+                subtitle: const Text(
+                  'Tarjetas translúcidas con desenfoque. Apágalo si va lento',
+                ),
+                value: _s.glass,
+                onChanged: _s.setGlass,
+              ),
+              SwitchListTile(
+                title: const Text('Fondo con degradado'),
+                subtitle: const Text('Manchas de color suaves detrás de todo'),
+                value: _s.aurora,
+                onChanged: _s.setAurora,
+              ),
+              ListTile(
+                title: const Text('Color'),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: [
+                      _swatch(0, null),
+                      for (final c in kAccentChoices) _swatch(c, Color(c)),
+                    ],
+                  ),
+                ),
+              ),
               _section('Velocidad de análisis'),
               for (final n in const [0, 1, 2, 3, 4])
                 _choice(

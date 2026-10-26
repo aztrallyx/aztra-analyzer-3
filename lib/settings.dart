@@ -13,6 +13,13 @@ class AppSettings extends ChangeNotifier {
   /// Tope de la cache de espectrogramas en MB. 0 = apagada.
   int spectrogramBudgetMb = 64;
 
+  /// Color de acento (ARGB). 0 = colores del telefono.
+  int accent = 0;
+
+  /// Efecto vidrio (translucidez + desenfoque) y fondo con degradado.
+  bool glass = true;
+  bool aurora = true;
+
   /// Canciones que se analizan a la vez. 0 = automatico segun el telefono.
   int analysisParallelism = 0;
 
@@ -64,6 +71,10 @@ class AppSettings extends ChangeNotifier {
         }
         final budget = json['spectrogramBudgetMb'];
         if (budget is int && budget >= 0) s.spectrogramBudgetMb = budget;
+        final accent = json['accent'];
+        if (accent is int) s.accent = accent;
+        if (json['glass'] is bool) s.glass = json['glass'] as bool;
+        if (json['aurora'] is bool) s.aurora = json['aurora'] as bool;
         final par = json['analysisParallelism'];
         if (par is int && par >= 0 && par <= 4) s.analysisParallelism = par;
         s.customFontFile = json['customFontFile'] as String?;
@@ -83,6 +94,9 @@ class AppSettings extends ChangeNotifier {
           'font': font,
           'spectrogramBudgetMb': spectrogramBudgetMb,
           'analysisParallelism': analysisParallelism,
+          'accent': accent,
+          'glass': glass,
+          'aurora': aurora,
           'customFontFile': customFontFile,
           'customFontLabel': customFontLabel,
         }),
@@ -152,6 +166,24 @@ class AppSettings extends ChangeNotifier {
   void setFont(String value) {
     if (value == 'custom' && !customLoaded) return;
     font = value;
+    notifyListeners();
+    _save();
+  }
+
+  void setAccent(int value) {
+    accent = value;
+    notifyListeners();
+    _save();
+  }
+
+  void setGlass(bool value) {
+    glass = value;
+    notifyListeners();
+    _save();
+  }
+
+  void setAurora(bool value) {
+    aurora = value;
     notifyListeners();
     _save();
   }

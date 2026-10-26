@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'audio_analysis_ffmpeg.dart';
 import 'audio_analysis_models.dart';
 import 'format.dart';
+import 'glass.dart';
 
 class InfoCard extends StatelessWidget {
   const InfoCard({super.key, required this.data, this.onRescan});
@@ -16,7 +17,7 @@ class InfoCard extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final nyquist = data.sampleRate / 2;
 
-    return Card(
+    return GlassCard(
       elevation: 0,
       margin: EdgeInsets.zero,
       color: cs.surfaceContainer,

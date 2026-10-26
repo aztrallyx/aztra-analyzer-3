@@ -14,6 +14,7 @@ import 'format.dart';
 import 'library.dart';
 import 'settings.dart';
 import 'settings_page.dart';
+import 'glass.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.controller, required this.settings});
@@ -368,7 +369,7 @@ class _ProgressCard extends StatelessWidget {
     final total = c.runTotal <= 0 ? 1 : c.runTotal;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-      child: Card(
+      child: GlassCard(
         elevation: 0,
         margin: EdgeInsets.zero,
         color: cs.surfaceContainer,
@@ -443,7 +444,7 @@ class _SummaryCard extends StatelessWidget {
     );
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-      child: Card(
+      child: GlassCard(
         elevation: 0,
         margin: EdgeInsets.zero,
         color: cs.surfaceContainer,
@@ -459,6 +460,41 @@ class _SummaryCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Insignia con el rango dinamico: rojo (<8), ambar (<12) o verde.
+class _DrBadge extends StatelessWidget {
+  const _DrBadge({required this.dr});
+  final double dr;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = dr < 8
+        ? const Color(0xFFFF5252)
+        : dr < 12
+        ? const Color(0xFFFFB300)
+        : const Color(0xFF4CAF50);
+    return Container(
+      width: 46,
+      height: 46,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: c.withValues(alpha: 0.18),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: c.withValues(alpha: 0.45)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            dr.toStringAsFixed(1),
+            style: TextStyle(color: c, fontSize: 14, fontWeight: FontWeight.w700),
+          ),
+          Text('DR', style: TextStyle(color: c, fontSize: 9)),
+        ],
       ),
     );
   }
@@ -508,6 +544,10 @@ class _ItemTile extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
             child: Row(
               children: [
+                if (item.state == ItemState.done && d != null) ...[
+                  _DrBadge(dr: d.dynamicRange),
+                  const SizedBox(width: 12),
+                ],
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
